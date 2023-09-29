@@ -15,7 +15,10 @@ class Player{
         //then updates handLength
         for (int i = 0; i < hand.length; i++) {
             if (hand[i].cardNumber == newCardNumber) {
+                
                 hand[i].cardQuantity += quantity;
+                //do we want to limit the quantity of cards a player can have?
+                //assert hand[i].cardQuantity < 5;
                 handLength += quantity;
                 
                 System.out.println("adding card of number " + newCardNumber + " and adding " + quantity + " of them");
@@ -31,6 +34,27 @@ class Player{
         }
         
         
+    }
+    
+    
+    //Prints the current hand in a nicer way
+    void PrintHand(){
+        String outString = new String("");
+        boolean firstTime = true;
+        for (int i=0; i < hand.length; i++) {
+            if(hand[i].cardQuantity > 0) {               
+                int countQuantity = 0;
+                while (countQuantity++ < hand[i].cardQuantity) {
+                    if(!firstTime){
+                        outString = outString + ", ";
+                    } else {
+                        firstTime = false;
+                    }
+                    outString = outString + hand[i].cardNumber;
+                }
+            }
+        }
+        System.out.println(outString);
     }
     
     void RemoveFromHand(int removedCardNumber){
