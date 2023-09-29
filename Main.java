@@ -56,11 +56,15 @@ class Main{
         
         while (positionInDeck < deck.length || player1.hand.length > 0 || player1.hand.length > 0) {
             while stillGuessing {
-            
-            stilGuessing = guessingPlayer.requestCard(answeringPlayer, positionInDeck);
+            int guess = guessingPlayer.DecideOnGuess;
+            stilGuessing = guessingPlayer.requestCard(guess, answeringPlayer);
             }
+            Player temp = guessingPlayer;
+            guessingPlayer = answeringPlayer;
+            answeringPlayer = temp;
         }
-        
+        System.out.println("Player 1 scored: " + player1.score);
+        System.out.println("Player 2 scored: " + player2.score);
     }
 }
 

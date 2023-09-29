@@ -10,7 +10,7 @@ class Player{
         }
     }
     
-    void AddToHand(int newCardNumber, int quantity){
+    int AddToHand(int newCardNumber, int quantity){ //seeing if it would work to make this an int that returns how many care in the card object bc this could be useful for automatically checking whether we've reached a set of 4
         //takes # of card/cards being added plus the quantity and iterates through the cards until it finds the corresponding # card and adds the quantity
         //then updates handLength
         for (int i = 0; i < hand.length; i++) {
@@ -29,8 +29,9 @@ class Player{
                     cardSum += hand[j].cardQuantity;
                 }
                 assert handLength == cardSum;
-                break;
+                return handLength;
             }
+            return -1;
         }
         
         
@@ -76,24 +77,28 @@ class Player{
         }
     }
     
-    int DecideOnGuess(strategy) {
-        implement stragegy and return # of choice
+    int DecideOnGuess(Strategy strategy) {
+        //implement stragegy and return # of choice
+        return guess;
     }
     
     boolean RequestCard(Player answeringPlayer, int guess) {
     // chooses a card based on some algorithm we make up later 
         //calls checkforcard with other player
+        boolean stillGuessing = true;
+        int totQuantOfAddedCard = 0;
+        
         if (checkForCard = -1) {
-            thisplayer.AddCard
+            totQuantOfAddedCard = this.AddCard;
         } else {
-            thisplayer.AddCard(guess, otherplayer[checkForCard]) 
-            otherplayer.removecard(checkforcard)
+            totQuantOfAddedCard = this.AddCard(guess, otherplayer[checkForCard]); 
+            answeringPlayer.removecard(guess); //might be a simpler way since remove card method goes through all cards again to try to find the corresponding card object
             }
-        for all the cards
-            check if there are four cards in it //maybe a shorter way to do this, just check ones added?
-               then player.points ++
-               remove those cards from their hand
-        if player's hand equal to zero
+        if (totQuantOfAddedCard = 4) {
+            this.RemoveCard(guess);
+            this.points++;
+        }
+        if player's hand equal to zero ...
             
         return if it was successful;
     }
