@@ -40,38 +40,26 @@ class Main{
         }
         
         //Deal hands
-        positionInDeck = DealHand(player1, deck, positionInDeck);
+        positionInDeck = DealHand(player1, deck, positionInDeck); 
         positionInDeck = DealHand(player2, deck, positionInDeck);
         
-        //System.out.println(Arrays.toString(deck)); //for debugging
+        positionInDeck = DealHand(player1, deck, positionInDeck);
         
-        //for (int i = 0; i < deck.length; i++) { //for debugging, prints the deck converted into numbers 0 - 12
-        //    System.out.print(deck[i] % 13 + ", ");
-        //}
-        //System.out.println();
+//        System.out.println(Arrays.toString(deck)); //for debugging
+//        
+//        for (int i = 0; i < deck.length; i++) { //for debugging, prints the deck converted into numbers 0 - 12
+//            System.out.print(deck[i] % 13 + ", ");
+//        }
+//      
+        Player guessingPlayer = player1;
+        Player answeringPlayer = player2;
         
-        //  tells us how far we are along in the deck array
-        
-        
-        
-        //player1.AddToHand(deck[positionInDeck++] % 13, 10);
-        //player1.PrintHand();
-        
-        
-        
-        //System.out.println("player1's starting hand is "); // for debugging, prints starting handf
-        //for (int i = 0; i < player1.hand.length; i++) {
-        //    System.out.print(player1.hand[i].cardNumber + ": " + player1.hand[i].cardQuantity + "     ");
-        //}
-        
-        
-        
-        
-        //for (int i = 0; i < player1.hand.length; i++) {
-        //    System.out.print(player1.hand[i].cardNumber + ": " + player1.hand[i].cardQuantity + "     ");   
-        //}
-        
-        
+        while (positionInDeck < deck.length || player1.hand.length > 0 || player1.hand.length > 0) {
+            while stillGuessing {
+            
+            stilGuessing = guessingPlayer.requestCard(answeringPlayer, positionInDeck);
+            }
+        }
         
     }
 }

@@ -17,8 +17,8 @@ class Player{
             if (hand[i].cardNumber == newCardNumber) {
                 
                 hand[i].cardQuantity += quantity;
-                //do we want to limit the quantity of cards a player can have?
-                //assert hand[i].cardQuantity < 5;
+                //do we want to limit the quantity of cards a player can have? I think not
+                //assert hand[i].cardQuantity < 5; //good idea. if this happens there is something wrong with our code
                 handLength += quantity;
                 
                 System.out.println("adding card of number " + newCardNumber + " and adding " + quantity + " of them");
@@ -74,5 +74,34 @@ class Player{
                 break;
             }
         }
+    }
+    
+    int DecideOnGuess(strategy) {
+        implement stragegy and return # of choice
+    }
+    
+    boolean RequestCard(Player answeringPlayer, int guess) {
+    // chooses a card based on some algorithm we make up later 
+        //calls checkforcard with other player
+        if (checkForCard = -1) {
+            thisplayer.AddCard
+        } else {
+            thisplayer.AddCard(guess, otherplayer[checkForCard]) 
+            otherplayer.removecard(checkforcard)
+            }
+        for all the cards
+            check if there are four cards in it //maybe a shorter way to do this, just check ones added?
+               then player.points ++
+               remove those cards from their hand
+        if player's hand equal to zero
+            
+        return if it was successful;
+    }
+    
+    int CheckForCard(card) {
+        for card object in hand
+            if card.quantity > 0
+                 Remove
+            return intex of card 
     }
 }
