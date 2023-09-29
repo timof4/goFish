@@ -3,6 +3,7 @@ class Player{
     Card[] hand = new Card[13];
     int points=0;
     int handLength=0; // sum of the quantities of all 13 card objects
+    String strategy;
     
     Player() {
         for (int i = 0; i < 13; i++) { //fills deck with card objects numbered 0 to 12
@@ -28,12 +29,12 @@ class Player{
                 for (int j = 0; j < hand.length; j++) {
                     cardSum += hand[j].cardQuantity;
                 }
-                assert handLength == cardSum;
+                //assert handLength == cardSum;
                 return handLength;
             }
-            return -1;
+            
         }
-        
+        return -1; 
         
     }
     
@@ -60,53 +61,70 @@ class Player{
     
     void RemoveFromHand(int removedCardNumber){
         // sets the quantity of the card being removed to 0
-        for (int i = 0; i < hand.length; i++) {
-            if (hand[i].cardNumber == removedCardNumber) {
-                handLength -= hand[i].cardQuantity;
-                hand[i].cardQuantity = 0;
-                
-                //just checks that hand length is correct
-                int cardSum = 0;
-                for (int j = 0; j < hand.length; j++) {
-                    cardSum += hand[j].cardQuantity;
-                }
-                assert handLength == cardSum;
-                
-                break;
-            }
+        
+        handLength -= hand[removedCardNumber].cardQuantity;
+        hand[removedCardNumber].cardQuantity = 0;
+        
+        //just checks that hand length is correct
+        int cardSum = 0;
+        for (int j = 0; j < hand.length; j++) {
+            cardSum += hand[j].cardQuantity;
         }
+        //assert handLength == cardSum;
+        
+        
     }
     
-    int DecideOnGuess(Strategy strategy) {
+    int DecideOnGuess() {
         //implement stragegy and return # of choice
-        return guess;
+        //Player will be initialized with a strategy, that doesnt happen here
+        return 0;
     }
     
-    boolean RequestCard(Player answeringPlayer, int guess) {
-    // chooses a card based on some algorithm we make up later 
+    int RequestCard(Player answeringPlayer, Card guess, int[] deck, int positionInDeck) {
+        // chooses a card based on some algorithm we make up later 
         //calls checkforcard with other player
         boolean stillGuessing = true;
         int totQuantOfAddedCard = 0;
         
-        if (checkForCard = -1) {
-            totQuantOfAddedCard = this.AddCard;
-        } else {
-            totQuantOfAddedCard = this.AddCard(guess, otherplayer[checkForCard]); 
-            answeringPlayer.removecard(guess); //might be a simpler way since remove card method goes through all cards again to try to find the corresponding card object
-            }
-        if (totQuantOfAddedCard = 4) {
-            this.RemoveCard(guess);
-            this.points++;
+        if (positionInDeck < 52) {
+            if (answeringPlayer.CheckForCard(guess) == -1) {
+                int addedCard = deck[positionInDeck++];
+                totQuantOfAddedCard = AddToHand(deck[addedCard] % 13,1);
+                if(hand[addedCard % 13].cardQuantity == 4){
+                    this.RemoveFromHand(hand[addedCard].num);
+                    this.points++;
+                }
+            } else {
+                AddToHand(guess.num, answeringPlayer.CheckForCard(guess)); 
+                if(hand[guess.num].cardQuantity == 4){
+                    this.RemoveFromHand(hand[guess.num].num);
+                    this.points++;
+                }
+                positionInDeck = RequestCard(answeringPlayer, hand[DecideOnGuess()], deck, positionInDeck);
+            } 
+        } else if (answeringPlayer.CheckForCard(guess) != -1) {
+            AddToHand(guess.num, answeringPlayer.CheckForCard(guess)); 
+                if(hand[guess.num].cardQuantity == 4){
+                    this.RemoveFromHand(hand[guess.num].num);
+                    this.points++;
+                }
+                positionInDeck = RequestCard(answeringPlayer, hand[DecideOnGuess()], deck, positionInDeck);
         }
-        if player's hand equal to zero ...
-            
-        return if it was successful;
+        
+        return positionInDeck;
     }
     
-    int CheckForCard(card) {
-        for card object in hand
-            if card.quantity > 0
-                 Remove
-            return intex of card 
+    int CheckForCard(Card card) {
+        for(int handCard = 0; handCard < hand.length; handCard++){
+            if(card.cardQuantity==hand[handCard].cardQuantity){
+                if(hand[handCard].cardQuantity > 0){
+                    int amount = hand[handCard].cardQuantity;
+                    hand[handCard].cardQuantity = 0;
+                    return amount; 
+                }
+            }
+        }
+        return -1;
     }
 }

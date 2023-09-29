@@ -17,7 +17,7 @@ class Main{
 
     
     public static void main(String args[]){
-        
+        boolean gameOver = false;
         Player player1 = new Player();
         Player player2 = new Player();
         int positionInDeck = 0;
@@ -54,17 +54,31 @@ class Main{
         Player guessingPlayer = player1;
         Player answeringPlayer = player2;
         
-        while (positionInDeck < deck.length || player1.hand.length > 0 || player1.hand.length > 0) {
-            while stillGuessing {
-            int guess = guessingPlayer.DecideOnGuess;
-            stilGuessing = guessingPlayer.requestCard(guess, answeringPlayer);
+        while (!gameOver) {
+            //while stillGuessing (Instead of using this while loop I'm doing it recursively in requestCard
+            int guess = guessingPlayer.DecideOnGuess();
+            //need to open position in deck
+            positionInDeck = guessingPlayer.RequestCard(answeringPlayer, guessingPlayer.hand[guess], deck, positionInDeck);
+            if(guessingPlayer.handLength == 0){
+                if(deck.length == 0){
+                    gameOver = true;
+                } else{
+                    guessingPlayer.AddToHand(deck[positionInDeck++],1);
+                }
+            }
+            if(answeringPlayer.handLength == 0){
+                if(deck.length == 0){
+                    gameOver = true;
+                } else{
+                    answeringPlayer.AddToHand(deck[positionInDeck++],1);
+                }
             }
             Player temp = guessingPlayer;
             guessingPlayer = answeringPlayer;
             answeringPlayer = temp;
         }
-        System.out.println("Player 1 scored: " + player1.score);
-        System.out.println("Player 2 scored: " + player2.score);
+        System.out.println("Player 1 scored: " + player1.points);
+        System.out.println("Player 2 scored: " + player2.points);
     }
 }
 
