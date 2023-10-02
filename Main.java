@@ -17,6 +17,7 @@ class Main{
 
     
     public static void main(String args[]){
+        
         boolean gameOver = false;
         Player player1 = new Player();
         Player player2 = new Player();
@@ -60,17 +61,28 @@ class Main{
             //need to open position in deck
             positionInDeck = guessingPlayer.RequestCard(answeringPlayer, guessingPlayer.hand[guess], deck, positionInDeck);
             if(guessingPlayer.handLength == 0){
-                if(deck.length == 0){
+                if(positionInDeck == 52){
                     gameOver = true;
+                    System.out.println(answeringPlayer.handLength/4);
+                    System.out.println(answeringPlayer.points);
+                    answeringPlayer.points+=guessingPlayer.handLength/4;
+                    answeringPlayer.handLength=0;
                 } else{
-                    guessingPlayer.AddToHand(deck[positionInDeck++],1);
+                    guessingPlayer.AddToHand(deck[positionInDeck],1);
+                    positionInDeck+=1;
                 }
             }
             if(answeringPlayer.handLength == 0){
-                if(deck.length == 0){
+                if(positionInDeck == 52){
                     gameOver = true;
+                    System.out.println(guessingPlayer.handLength/4);
+                    System.out.println(guessingPlayer.points);
+                    guessingPlayer.points+=guessingPlayer.handLength/4;
+                    
+                    guessingPlayer.handLength=0;
                 } else{
-                    answeringPlayer.AddToHand(deck[positionInDeck++],1);
+                    answeringPlayer.AddToHand(deck[positionInDeck],1);
+                    positionInDeck+=1;
                 }
             }
             Player temp = guessingPlayer;
