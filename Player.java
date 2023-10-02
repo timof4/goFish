@@ -92,8 +92,9 @@ class Player{
             if (answeringPlayer.CheckForCard(guess) == -1) {
                 int addedCard = deck[positionInDeck++];
                 totQuantOfAddedCard = originalLength - AddToHand(addedCard % 13,1);
-                if(hand[addedCard % 13].cardQuantity == 4){
-                    RemoveFromHand(hand[addedCard % 13].num);
+                if(hand[guess.num].cardQuantity == 4){
+                    RemoveFromHand(guess.num);
+                    System.out.println("Scored for " + guess.num);
                     points=points+1;
                 }
             } else {
@@ -101,6 +102,7 @@ class Player{
                 answeringPlayer.RemoveFromHand(guess.num);
                 if(hand[guess.num].cardQuantity == 4){
                     RemoveFromHand(guess.num);
+                    System.out.println("Scored for " + guess.num);
                     points=points+1;
                 }
                 positionInDeck = RequestCard(answeringPlayer, hand[DecideOnGuess()], deck, positionInDeck);
@@ -110,6 +112,7 @@ class Player{
             answeringPlayer.RemoveFromHand(guess.num);
                 if(hand[guess.num].cardQuantity == 4){
                     RemoveFromHand(guess.num);
+                    System.out.println("Scored for " + guess.num);
                     points=points+1;
                 }
                 positionInDeck = RequestCard(answeringPlayer, hand[DecideOnGuess()], deck, positionInDeck);
