@@ -61,7 +61,7 @@ class Player{
     
     void RemoveFromHand(int removedCardNumber){
         // sets the quantity of the card being removed to 0
-        
+        removedCardNumber = removedCardNumber %13;
         handLength -= hand[removedCardNumber].cardQuantity;
         int amountRemoved = hand[removedCardNumber].cardQuantity;
         hand[removedCardNumber].cardQuantity = 0;
@@ -79,46 +79,81 @@ class Player{
     int DecideOnGuess() {
         //implement stragegy and return # of choice
         //Player will be initialized with a strategy, that doesnt happen here
-        return lastGuess++ % 13;
+        if(hand[lastGuess % 13].cardQuantity > 0) {
+            return lastGuess++ % 13;
+        } else {
+            lastGuess++;
+            for(int guess=0; guess<13; guess++) {
+                if(hand[guess].cardQuantity > 0) {
+                    return guess;
+                }
+            }
+        }
+        return 0;
     }
     
-    int RequestCard(Player answeringPlayer, Card guess, int[] deck, int positionInDeck) {
+    int RequestCard(Player answeringPlayer, Card guess, int[] deck, int positionInDeck, int counter) {
         // chooses a card based on some algorithm we make up later 
         //calls checkforcard with other player
+        if(counter>100) {
+            PrintHand();
+            answeringPlayer.PrintHand();
+        }
         boolean stillGuessing = true;
         int totQuantOfAddedCard = 0;
         int originalLength = handLength;
+        //System.out.println("Guessing Players Hand");
+        //PrintHand();
+        //System.out.println("Answering Players Hand");
+        //answeringPlayer.PrintHand();
+        //System.out.println("Checking for " + guess.num);
         if (positionInDeck < 52) {
             if (answeringPlayer.CheckForCard(guess) == -1) {
+                //System.out.println("Not found. Drawing");
                 int addedCard = deck[positionInDeck++];
+                //System.out.println("Drew " + addedCard%13);
                 totQuantOfAddedCard = originalLength - AddToHand(addedCard % 13,1);
-                if(hand[guess.num].cardQuantity == 4){
-                    RemoveFromHand(guess.num);
-                    System.out.println("Scored for " + guess.num);
+                if(hand[addedCard % 13].cardQuantity == 4){
+                    //System.out.println("Has 4 of "+ addedCard%13);
+                    //System.out.println("Previous points: " + points);
+                    RemoveFromHand(addedCard);
+                    //System.out.println("Scored for " + guess.num);
                     points=points+1;
+                    //System.out.println("New points: " + points);
                 }
             } else {
                 AddToHand(guess.num, answeringPlayer.CheckForCard(guess));
+                //System.out.println("Found it!");
                 answeringPlayer.RemoveFromHand(guess.num);
                 if(hand[guess.num].cardQuantity == 4){
+                    //System.out.println("Had 4 of " + guess.num);
+                    //System.out.println("Previous points: " + points);
                     RemoveFromHand(guess.num);
-                    System.out.println("Scored for " + guess.num);
+                    //System.out.println("Scored for " + guess.num);
                     points=points+1;
+                    //System.out.println("New points: " + points);
                 }
-                positionInDeck = RequestCard(answeringPlayer, hand[DecideOnGuess()], deck, positionInDeck);
+                positionInDeck = RequestCard(answeringPlayer, hand[DecideOnGuess()], deck, positionInDeck, counter++);
             } 
         } else if (answeringPlayer.CheckForCard(guess) != -1) {
+            //System.out.println("Found it! No cards left in deck");
             AddToHand(guess.num, answeringPlayer.CheckForCard(guess)); 
             answeringPlayer.RemoveFromHand(guess.num);
                 if(hand[guess.num].cardQuantity == 4){
+                    //System.out.println("Had 4 of " + guess.num);
+                    //System.out.println("Previous points: " + points);
                     RemoveFromHand(guess.num);
-                    System.out.println("Scored for " + guess.num);
+                    //System.out.println("Scored for " + guess.num);
                     points=points+1;
+                    //System.out.println("New points: " + points);
                 }
-                positionInDeck = RequestCard(answeringPlayer, hand[DecideOnGuess()], deck, positionInDeck);
+                positionInDeck = RequestCard(answeringPlayer, hand[DecideOnGuess()], deck, positionInDeck, counter++);
                 
         }
-        
+        //System.out.println("at");
+        //System.out.println(positionInDeck);
+        //PrintHand();
+        //answeringPlayer.PrintHand();
         return positionInDeck;
     }
     
